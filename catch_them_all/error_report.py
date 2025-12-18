@@ -57,6 +57,38 @@ class PokedexReport:
             Pre-rendered Rich object for terminal display.
         str_format : str
             Pre-rendered plain-text version of the report.
+
+        ╭── PokedexReport Instance Digram:
+        │
+        ├── Attributes:
+        │:str  ├── name          : Exception class name (e.g., "ConnectionError"). ─────────────────────╮
+        │:str  ├── module        : Module where the exception is defined (e.g., "requests.exceptions")  │
+        │:str  ├── msg           : Exception message / string representation.                           │
+        │:str  ├── summary       : One-line human-readable summary from the registry.                   │
+        │:list ├── frames        : List of distilled stack frame dicts.(e.g., line_no, file...).        ├── Error Info
+        │:str  ├── timestamp     : ISO timestamp when the exception occurred.                           │
+        │:dict ├── caused_by     : Chain of causing exceptions (if any).                                │
+        │:dict ├── user_context  : User-provided context (e.g., user_id, request data). ────────────────╯
+        │      │
+        │      ├── formatted_object : Internal Formatter instance for rendering. ───────────────────────╮
+        │      │Panel        ├── header        : Exception box (summary + metadata).                    ├── Formatter components
+        │      │:Panel       ├── frames        : Stack trace frames.                                    │
+        │      │:Panel       └── context_panel : Injected user context. ────────────────────────────────╯
+        │      │        (In case a user requires specific component)
+        │      │
+        │:dict ├── json_format   : Cached dict representation. ───────────────────────────────────╮
+        │:str  ├── log_format    : Plain-text version without footer, suitable for logs.          ├── Output formats
+        │:Group├── rich_format   : Rich object for styled terminal display.                       │
+        │:str  ╰── str_format    : Plain-text CLI-friendly version. ──────────────────────────────╯
+        │
+        ├── Methods:
+        │      ├── .to_dict()          : Return attributes as a Python dict. ──────────────────────╮
+        │      ├── .to_log(path)       : Append plain-text report to a log file.                   │
+        │      ├── .to_json(path=None) : Serialize to JSON string, or write to file if path given. ├── Report methods
+        │      ├── .show()             : Render rich report to console.                            │
+        │      ╰── .inject_context(ctx): Add user-defined context dictionary. ─────────────────────╯
+        │
+        ╰──────────────────────────────────────────────────────────────────────────────────────────╯
         """
     name: str
     module: str

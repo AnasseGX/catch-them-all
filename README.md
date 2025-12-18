@@ -89,12 +89,12 @@ When you import `catch_them_all`, these behaviours trigger automatically:
 ## Usage
 
 ---
-### Pokeball
++ ###  Pokeball
 
 **Description:**  
 Wrap functions with `@pokeball` to automatically catch exceptions, format them with your chosen theme, and optionally log the report.
 
-**Simple Example:**
+**Example 1:**
 + **Instead of manually adding `try/except` blocks:**
 ```python
 try:
@@ -102,6 +102,8 @@ try:
 except Exception as e:
     logger.exception(e)
 ```
+
+
 + **You can simply do this:**
 
 ```python
@@ -122,7 +124,35 @@ def something():
 - Note : *A decorator always adds a frame in the traceback, that why you see `wrapper()` in the Stack, it is the natural behaviour of **Python Decorators***
 
 ---
-### Excepthook
+**Example 2:**
++ **Instead of importing custom exceptions and scattering `try/except` blocks:**
+
+```python
+from requests.exceptions import RequestException, HTTPError, ConnectionError, Timeout
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
+from sklearn.exceptions import NotFittedError, ConvergenceWarning
+
+try:
+    func_might_raise()
+except ConnectionError:
+    handling_logic()
+```
++ **You can decorate the function with `@pokeball` and pass `handling_logic` `func` to it:**
+
+```python
+from catch_them_all import pokeball
+
+@pokeball(on_catch=handling_logic)
+def func_might_raise():
+    ... # code
+```
+**+  This eliminates the need to import and manage multiple *Custom* `exception` classes manually**
+
++  **Keeping error handling *Clean, Centralized, and Easier to Maintain*.**
+
++  + **`Exception` ➜ Raises ➜ `Pokeball` ➜ Catches ➜ `On_Catch` ➜ Triggers ➜ `User` ➜ Decides.**
+---
++ ### Excepthook
 
 **Description:**  
 `excepthook` is a custom traceback formatter from `catch_them_all`.  
@@ -143,9 +173,11 @@ import catch_them_all
 raise RuntimeError("Uncaught exception demo")
 ```
 
-- **Output** <u>fully styled traceback</u>:
+- **Output: *Fully Styled Traceback*:** 
 
 ![Styled traceback for uncaught RuntimeError using catch-them-all custom excepthook](https://raw.githubusercontent.com/AnasseGX/catch-them-all/refs/heads/master/docs/usage-excepthook-ex1.png)
+
+
 
 ---
 - **instead of Python's native traceback**
@@ -224,10 +256,17 @@ if __name__ == "__main__":
     # If exception was caught, obj is a PokedexReport instance.
 
 ```
-**Note** :*The ~12‑second delay observed in the `@pokeball` example is due to `requests` trying to resolve a non‑existent address. It’s <u>**not**</u> related to `catch_them_all` itself.*
+**Note:** These Exceptions are excluded:
+
+- `KeyboardInterrupt`  `SystemExit`  `GeneratorExit`  and`MemoryError`  as these are **Critical System Exceptions** that must propagate.
+- `SyntaxError`, `TabError`, and `IndentationError`, which occur at parse time before runtime.
+
+
+**Note:** 
+- *The ~12‑second delay observed in the `@pokeball` example is due to `requests` trying to resolve a non‑existent address. It’s <u>**not**</u> related to `catch_them_all` itself.*
 
 ---
-**IDE output :**
+**IDE Output when an `Exception` is raised:**
 - Dual Exception Panel for Convenience.
 - User Injected Context Panel
 - Indented Stack Frames
@@ -253,6 +292,7 @@ print(report.str_format)
 ![Plain text exception report using .str_format, suitable for CLI and logs](https://raw.githubusercontent.com/AnasseGX/catch-them-all/refs/heads/master/docs/pokebal-advanced-usage-cli-output.png)
 
 ---
+
 ## PokedexReport Object
 
 ---
@@ -354,28 +394,28 @@ Customizing traceback output with the `Style` class:
 ╭── Style Instance
 │
 ├── Attributes:
-│      ├── labels   : Style for metadata labels (e.g. "message:", "code:", "info:").
+│      ├── labels   : Style for metadata labels (e.g. "message:", "code:", "info:").   ├── Generic 
 │      ├── muted    : Style for secondary or de‑emphasized text. 
 │      │
-│      ├── header_border       : Border style for header panel. (e.g., "medium_turquoise")
-│      ├── header_exception    : Style for exception type in header. (e.g., "bold yellow")
-│      ├── header_timestamp    : Style for timestamp in header. (e.g., "italic #af00ff")
-│      ├── header_summary      : Style for summary line. (e.g., "italic rgb(175,0,255)")
-│      ├── header_message      : Style for message label.
-│      ├── header_cause        : Style for cause label.
+│      ├── header_border       : Border style for header panel. (e.g., "medium_turquoise") ─────────────────────╮
+│      ├── header_exception    : Style for exception type in header. (e.g., "bold yellow")                      │
+│      ├── header_timestamp    : Style for timestamp in header. (e.g., "italic #af00ff")                        ├──{Exception Header Propoerties} 
+│      ├── header_summary      : Style for summary line. (e.g., "italic rgb(175,0,255)")                        │
+│      ├── header_message      : Style for message label.                                                       │
+│      ├── header_cause        : Style for cause label. ────────────────────────────────────────────────────────╯
 │      │
-│      ├── stack_indent               : Indentation spaces per frame level (0–6).
-│      ├── stack_border               : Border style for frame panels.
-│      ├── stack_func_and_line_no     : Style for function name + line number.
-│      ├── stack_file_path            : Style for file path.
+│      ├── stack_indent               : Indentation spaces per frame level (0–6).─────────────────────╮
+│      ├── stack_border               : Border style for frame panels.                                ├──{Traceceback Stack Properties} 
+│      ├── stack_func_and_line_no     : Style for function name + line number.                        │
+│      ├── stack_file_path            : Style for file path. ─────────────────────────────────────────╯
 │      │  
-│      ├── context_border : Border style for user context panel.
-│      ├── context_keys   : Style for user context Dict keys.
-│      ╰── context_values : Style for user context Dict values.
+│      ├── context_border : Border style for user context panel.────────────────────────────────────────╮
+│      ├── context_keys   : Style for user context Dict keys.                                           ├──{User Injected Context Properties}
+│      ╰── context_values : Style for user context Dict values.─────────────────────────────────────────╯
 │
 ├── Methods:
 │      ├── styles()       : Return list of available Rich text styles.
-│      ├── colors()       : Return list of available Rich colors.
+│      ├── colors()       : Return list of available Rich colors.                                           
 │      ├── export_style() : Export current Style to JSON file.
 │      ├── load_style()   : Load Style from JSON file or defaults.
 │      ╰── to_dict()      : Serialize Style instance to dictionary.

@@ -64,6 +64,37 @@ class Style:
             Style for keys in the injected context dictionary.
         context_values : str
             Style for values in the injected context dictionary.
+
+        ╭── Style Instance Diagram:
+        │
+        ├── Attributes:
+        │:str  ├── labels   : Style for metadata labels (e.g. "message:", "code:", "info:").   ├── Generic
+        │:str  ├── muted    : Style for secondary or de‑emphasized text.
+        │      │
+        │:str  ├── header_border       : Border style for header panel. (e.g., "medium_turquoise") ─────────────────────╮
+        │:str  ├── header_exception    : Style for exception type in header. (e.g., "bold yellow")                      │
+        │:str  ├── header_timestamp    : Style for timestamp in header. (e.g., "italic #af00ff")                        ├──{Exception Header Propoerties}
+        │:str  ├── header_summary      : Style for summary line. (e.g., "italic rgb(175,0,255)")                        │
+        │:str  ├── header_message      : Style for message label.                                                       │
+        │:str  ├── header_cause        : Style for cause label. ────────────────────────────────────────────────────────╯
+        │      │
+        │:int  ├── stack_indent               : Indentation spaces per frame level (0–6).─────────────────────╮
+        │:str  ├── stack_border               : Border style for frame panels.                                ├──{Traceceback Stack Properties}
+        │:str  ├── stack_func_and_line_no     : Style for function name + line number.                        │
+        │:str  ├── stack_file_path            : Style for file path. ─────────────────────────────────────────╯
+        │      │
+        │:str  ├── context_border : Border style for user context panel.────────────────────────────────────────╮
+        │:str  ├── context_keys   : Style for user context Dict keys.                                           ├──{User Injected Context Properties}
+        │:str  ╰── context_values : Style for user context Dict values.─────────────────────────────────────────╯
+        │
+        ├── Methods:
+        │      ├── styles()       : Return list of available Rich text styles.
+        │      ├── colors()       : Return list of available Rich colors.
+        │      ├── export_style() : Export current Style to JSON file.
+        │      ├── load_style()   : Load Style from JSON file or defaults.
+        │      ╰── to_dict()      : Serialize Style instance to dictionary.
+        │
+        ╰─────────────────────────────────────────────────────────────────╯
         """
 
     RICH_COLORS = [
