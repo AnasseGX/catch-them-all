@@ -308,26 +308,26 @@ making it easy to inspect, log, or display exceptions programmatically.*
 │      ├── module        : Module where the exception is defined (e.g., "requests.exceptions")  │
 │      ├── msg           : Exception message / string representation.                           │
 │      ├── summary       : One-line human-readable summary from the registry.                   │
-│      ├── frames        : List of distilled stack frame dicts.(e.g., line_no, file...).        ├── Error Info
+│      ├── frames        : List of distilled stack frame dicts.(e.g., line_no, file...).        ├──{Error Info}
 │      ├── timestamp     : ISO timestamp when the exception occurred.                           │
 │      ├── caused_by     : Chain of causing exceptions (if any).                                │
 │      ├── user_context  : User-provided context (e.g., user_id, request data). ────────────────╯
 │      │
 │      ├── formatted_object : Internal Formatter instance for rendering. ──────────────────╮
-│      │        ├── header        : Exception box (summary + metadata).                    ├── Formatter components
+│      │        ├── header        : Exception box (summary + metadata).                    ├── {Formatter components}
 │      │        ├── frames        : Stack trace frames.                                    │
 │      │        └── context_panel : Injected user context. ────────────────────────────────╯
 │      │        (In case a user requires specific component)
 │      │
 │      ├── json_format   : Cached dict representation. ───────────────────────────────────╮
-│      ├── log_format    : Plain-text version without footer, suitable for logs.          ├── Output formats
+│      ├── log_format    : Plain-text version without footer, suitable for logs.          ├── {Output formats}
 │      ├── rich_format   : Rich object for styled terminal display.                       │
 │      ╰── str_format    : Plain-text CLI-friendly version. ──────────────────────────────╯
 │
 ├── Methods:
 │      ├── .to_dict()          : Return attributes as a Python dict. ──────────────────────╮
 │      ├── .to_log(path)       : Append plain-text report to a log file.                   │
-│      ├── .to_json(path=None) : Serialize to JSON string, or write to file if path given. ├── Report methods
+│      ├── .to_json(path=None) : Serialize to JSON string, or write to file if path given. ├── {Report methods}
 │      ├── .show()             : Render rich report to console.                            │
 │      ╰── .inject_context(ctx): Add user-defined context dictionary. ─────────────────────╯
 │
