@@ -1,6 +1,6 @@
 [project]
 name = "catch-them-all"
-version = "1.0.0"
+version = "1.0.1"
 description = """Not just a traceback formatter — but a universal exception handler.
 A single @decorator that transforms every exception into a structured, multi-format report"""
 readme = "README.md"
