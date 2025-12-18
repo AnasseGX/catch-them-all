@@ -1,6 +1,6 @@
 # Catch Them All
 
-[![PyPI version](https://badge.fury.io/py/catch-them-all.svg)](https://pypi.org/project/catch-them-all/)
+[![PyPI version](https://badge.fury.io/py/catch-them-all.svg)](https://badge.fury.io/py/catch-them-all)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python versions](https://img.shields.io/pypi/pyversions/catch-them-all.svg)](https://pypi.org/project/catch-them-all/)
 
